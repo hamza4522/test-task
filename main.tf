@@ -1,3 +1,4 @@
+# Provider configuration
 provider "aws" {
   region = var.region
 }
@@ -18,8 +19,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   availability_zone       = "${var.region}a"
   tags = {
-    Name  = "${var.app_name}-subnet"
-    owner = "hamza ali"
+    Name = "${var.app_name}-subnet"
   }
 }
 
@@ -27,9 +27,7 @@ resource "aws_subnet" "public" {
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name  = "${var.app_name}-igw"
-    owner = "hamza ali"
-
+    Name = "${var.app_name}-igw"
   }
 }
 
@@ -41,9 +39,7 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.main.id
   }
   tags = {
-    Name  = "${var.app_name}-route-table"
-    owner = "hamza ali"
-
+    Name = "${var.app_name}-route-table"
   }
 }
 
@@ -64,7 +60,7 @@ resource "aws_security_group" "web_sg" {
       from_port   = ingress.value.port
       to_port     = ingress.value.port
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ingress.value.port == 22 ? [var.ssh_cidr] : ["0.0.0.0/0"]
     }
   }
 
@@ -76,9 +72,7 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name  = "${var.app_name}-sg"
-    owner = "hamza ali"
-
+    Name = "${var.app_name}-sg"
   }
 }
 
@@ -145,13 +139,12 @@ resource "aws_instance" "web" {
               EOF
 
   tags = {
-    Name  = "${var.app_name}-server"
-    owner = "hamza ali"
-
+    Name = "${var.app_name}-server"
   }
 }
 
-resource "aws_ebs_volume" "storage" {
+# EBS Volume
+resource "aws_ebs_volume" "web_storage" {
   availability_zone = "${var.region}a"
   size              = var.ebs_volume_size
   tags = {
@@ -162,6 +155,6 @@ resource "aws_ebs_volume" "storage" {
 # Attach EBS Volume to EC2
 resource "aws_volume_attachment" "web_storage_attachment" {
   device_name = "/dev/xvdf"
-  volume_id   = aws_ebs_volume.storage.id
+  volume_id   = aws_ebs_volume.web_storage.id
   instance_id = aws_instance.web.id
 }
