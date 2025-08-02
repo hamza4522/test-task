@@ -1,15 +1,14 @@
 # Example Terraform variables file
 # Copy this file to terraform.tfvars and update values as needed
 
-region = "us-east-1"
-app_name = "my-web-app"
-vpc_cidr = "10.0.0.0/16"
-subnet_cidr = "10.0.1.0/24"
-ami_id = "ami-0c55b159cbfafe1f0" # Replace with valid AMI ID for your region
-instance_type = "t2.micro"
-public_key_path = "~/.ssh/my-web-app-key.pub"
+region          = "us-east-1"
+app_name        = "my-web-app"
+vpc_cidr        = "10.0.0.0/16"
+subnet_cidr     = "10.0.1.0/24"
+ami_id          = "ami-08a6efd148b1f7504" # Replace with valid AMI ID for your region
+instance_type   = "t2.micro"
+public_key_path = "C:/Users/syedh/.ssh/id_ed25519.pub"
 ebs_volume_size = 10
-ssh_cidr = "203.0.113.10/32" # Replace with your IP address for SSH access
 ingress_ports = [
   { port = 80 },
   { port = 443 },
