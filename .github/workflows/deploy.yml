@@ -48,5 +48,5 @@ jobs:
             unzip -o app.zip -d app
             cd app
             npm install
-            pm2 restart node-app || pm2 start server.js --name node-app
+            pm2 reload node-app || pm2 start server.js --name node-app
             sudo systemctl restart nginx.service
