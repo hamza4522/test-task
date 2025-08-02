@@ -9,7 +9,6 @@ ami_id = "ami-0c55b159cbfafe1f0" # Replace with valid AMI ID for your region
 instance_type = "t2.micro"
 public_key_path = "~/.ssh/my-web-app-key.pub"
 ebs_volume_size = 10
-ssh_cidr = "203.0.113.10/32" # Replace with your IP address for SSH access
 ingress_ports = [
   { port = 80 },
   { port = 443 },
