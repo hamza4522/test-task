@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user
-            rm -rf app
+            sudo rm -rf app
             unzip -o app.zip -d app
             cd app
             npm install --production
