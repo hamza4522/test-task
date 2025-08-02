@@ -46,11 +46,6 @@ variable "ebs_volume_size" {
   default     = 10
 }
 
-variable "ssh_cidr" {
-  description = "CIDR block for SSH access"
-  type        = string
-  default     = "0.0.0.0/0" # Restrict to your IP in production
-}
 
 variable "ingress_ports" {
   description = "List of ingress ports and their configurations"
