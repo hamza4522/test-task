@@ -44,9 +44,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user
+            pm2 delete all || true
+            sudo fuser -k 3000/tcp || true
             sudo rm -rf app
             unzip -o app.zip -d app
             cd app
-            npm install
-            pm2 reload node-app || pm2 start server.js --name node-app
-            sudo systemctl restart nginx.service
+            npm install -f
+            npm set-script start "node server.js"
+            pm2 start npm --name node-app -- start
+            pm2 save
