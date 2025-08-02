@@ -96,35 +96,17 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = aws_key_pair.web_key.key_name
 
-  user_data = <<-EOF
-              #!/bin/bash
+  user_data =               #!/bin/bash
               yum update -y
+
               # Install Node.js
               curl -sL https://rpm.nodesource.com/setup_16.x | bash -
               yum install -y nodejs
+
               # Install PM2 globally
               npm install -g pm2
-              # Create a simple Node.js app
-              mkdir /app
-              cd /app
-              npm init -y
-              npm install express
-              cat << 'EOL' > /app/server.js
-              const express = require('express');
-              const app = express();
-              app.get('/', (req, res) => {
-                res.send('<h1>Welcome to the Node.js Web App</h1>');
-              });
-              app.listen(3000, () => {
-                console.log('Server running on port 3000');
-              });
-              EOL
-              # Start the Node.js app with PM2
-              cd /app
-              pm2 start server.js --name node-app
-              pm2 save
-              pm2 startup systemd
-              # Install and configure Nginx as reverse proxy
+
+              # Install and configure Nginx
               yum install -y nginx
               cat << 'EOL' > /etc/nginx/conf.d/node-app.conf
               server {
@@ -133,16 +115,49 @@ resource "aws_instance" "web" {
                   location / {
                       proxy_pass http://localhost:3000;
                       proxy_http_version 1.1;
-                      proxy_set_header Upgrade $http_upgrade;
+                      proxy_set_header Upgrade \$http_upgrade;
                       proxy_set_header Connection 'upgrade';
-                      proxy_set_header Host $host;
-                      proxy_cache_bypass $http_upgrade;
+                      proxy_set_header Host \$host;
+                      proxy_cache_bypass \$http_upgrade;
                   }
               }
               EOL
+
               systemctl start nginx
               systemctl enable nginx
+
+              # Switch to ec2-user to setup and start app
+              su - ec2-user << 'USER_CMDS'
+
+              # Setup app directory
+              mkdir -p /home/ec2-user/app
+              cd /home/ec2-user/app
+
+              # Initialize Node app
+              npm init -y
+              npm install express
+
+              # Create server.js
+              cat << 'APP_JS' > /home/ec2-user/app/server.js
+              const express = require('express');
+              const app = express();
+              app.get('/', (req, res) => {
+                res.send('<h1>Welcome to the Node.js Web App</h1>');
+              });
+              app.listen(3000, () => {
+                console.log('Server running on port 3000');
+              });
+              APP_JS
+
+              # Set start script
+              npm set-script start "node server.js"
+
+              # Start app using PM2 with npm
+              pm2 start npm --name node-app -- start
+              pm2 save
+              USER_CMDS
               EOF
+
 
   tags = {
     Name  = "${var.app_name}-server"
