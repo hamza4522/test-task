@@ -13,6 +13,3 @@ This repository contains separate branches for four different tasks. Each branch
 - **`task-3`**  
   Contains the code and implementation for **Task 3**.
 
-- **`task-4`**  
-  Contains the document for **Task 4**.
-
