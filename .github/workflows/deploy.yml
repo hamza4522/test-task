@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user
-            pm2 delete all || true
+            pm2 stop node-app || true
             sudo fuser -k 3000/tcp || true
             sudo rm -rf app
             unzip -o app.zip -d app
