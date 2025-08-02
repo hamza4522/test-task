@@ -1,0 +1,15 @@
+{
+  "name": "node-ci-cd-demo",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
