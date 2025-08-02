@@ -35,6 +35,10 @@ When code is pushed to the `task-2` branch:
 6. **SSHs into EC2**, kills the running app, replaces it, installs dependencies, and restarts the app using PM2
 
 ---
+<img width="1920" height="1080" alt="Screenshot 2025-08-02 185612" src="https://github.com/user-attachments/assets/8c39ff39-1386-4d66-9e85-e16f2b5fcbd1" />
+<img width="1920" height="1080" alt="Screenshot 2025-08-02 185645" src="https://github.com/user-attachments/assets/9b00a360-3deb-43c7-b1ad-5c3d59a9593c" />
+<img width="1920" height="1080" alt="Screenshot 2025-08-02 185813" src="https://github.com/user-attachments/assets/d29e4e09-caeb-4595-a9fc-688e3dc803ce" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/21379327-b6e8-4dad-8deb-3bd672d0092b" />
 
 ## 🧾 Required Project Files
 
@@ -53,8 +57,4 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
-<img width="1920" height="1080" alt="Screenshot 2025-08-02 185612" src="https://github.com/user-attachments/assets/8c39ff39-1386-4d66-9e85-e16f2b5fcbd1" />
-<img width="1920" height="1080" alt="Screenshot 2025-08-02 185645" src="https://github.com/user-attachments/assets/9b00a360-3deb-43c7-b1ad-5c3d59a9593c" />
-<img width="1920" height="1080" alt="Screenshot 2025-08-02 185813" src="https://github.com/user-attachments/assets/d29e4e09-caeb-4595-a9fc-688e3dc803ce" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/21379327-b6e8-4dad-8deb-3bd672d0092b" />
 
