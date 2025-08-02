@@ -1,4 +1,4 @@
-name: CI/CD Pipeline Task-2
+name: CI/CD Pipeline task-2
 
 on:
   push:
